@@ -36,7 +36,7 @@ export const player2PositionMap = [
   'finish'
 ];
 
-const PLAYER = {
+export const PLAYER = {
   ONE: 'PLAYER_ONE',
   TWO: 'PLAYER_TWO'
 };
@@ -49,3 +49,6 @@ const generatePlayerPieces = (player: string) => {
 
 const PLAYER_ONE_PIECES = generatePlayerPieces(PLAYER.ONE);
 const PLAYER_TWO_PIECES = generatePlayerPieces(PLAYER.TWO);
+
+export const getPlayerPiece = (player: string, piece: number) =>
+  `${player}_PIECE_${piece}`;

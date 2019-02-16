@@ -1,8 +1,8 @@
 import { configureStore } from 'redux-starter-kit';
-import { positionReducer } from './reducers';
+import { boardReducer } from './reducers';
 
 const store = configureStore({
-  reducer: { positionReducer }
+  reducer: { board: boardReducer }
 });
 
 export default store;

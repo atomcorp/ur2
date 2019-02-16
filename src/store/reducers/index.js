@@ -1,1 +1,1 @@
-export { default as positionReducer } from './positionReducer';
+export { default as boardReducer } from './boardReducer';

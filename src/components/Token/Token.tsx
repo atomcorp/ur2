@@ -1,6 +1,12 @@
 import React from 'react';
 import css from './Token.module.css';
 
-const Token = () => <section className={css.container}>⛀</section>;
+type TokenProps = {
+  id: string;
+};
+
+const Token = (props: TokenProps) => (
+  <section className={css.container}>⛀</section>
+);
 
 export default Token;
