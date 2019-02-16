@@ -1,11 +1,11 @@
-import React from "react";
-import css from "./Square.module.css";
+import React from 'react';
+import css from './Square.module.css';
 
 type SquareProps = {
   id: String;
 };
 
-const Square: React.FC<SquareProps> = props => (
+const Square: React.FC<SquareProps> = (props) => (
   <section className={css.container}>{props.children}</section>
 );
 

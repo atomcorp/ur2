@@ -1,21 +1,22 @@
-import React from "react";
-import { Board, Square, BoardRow } from "../";
+import React from 'react';
+import { Board, Square, BoardRow, Token } from '../';
+import { BOARD_KEYS } from '../../utilities/boardHelpers';
 
-const BOARD_KEYS = Array(3)
-  .fill(0)
-  .map((_, i) =>
-    Array(8)
-      .fill(0)
-      .map((_, x) => String.fromCharCode(97 + i) + x)
-  );
+type positionsType = {
+  [key: string]: boolean;
+};
+
+const POSITIONS: positionsType = {
+  b0: true
+};
 
 const UrBoard = () => (
   <Board>
     {BOARD_KEYS.map((row, i) => (
       <BoardRow key={i}>
-        {row.map(squareId => (
+        {row.map((squareId) => (
           <Square key={squareId} id={squareId}>
-            {squareId}
+            {POSITIONS[squareId] ? <Token /> : squareId}
           </Square>
         ))}
       </BoardRow>
