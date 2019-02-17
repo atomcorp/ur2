@@ -2,9 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Board, Square, BoardRow, Token } from '../';
 import { BOARD_KEYS } from '../../utilities/boardHelpers';
+import { TokenType } from '../../types';
 
 type UrBoardProps = {
-  positions: { [key: string]: string };
+  positions: {
+    [key: string]: TokenType;
+  };
 };
 
 const UrBoard = (props: UrBoardProps) => (
@@ -14,7 +17,7 @@ const UrBoard = (props: UrBoardProps) => (
         {row.map((squareId) => (
           <Square key={squareId}>
             {props.positions[squareId] ? (
-              <Token id={props.positions[squareId]} />
+              <Token token={props.positions[squareId]} />
             ) : (
               squareId
             )}
@@ -26,7 +29,11 @@ const UrBoard = (props: UrBoardProps) => (
 );
 
 type state = {
-  board: { positions: { [key: string]: string } };
+  board: {
+    positions: {
+      [key: string]: TokenType;
+    };
+  };
 };
 
 export default connect((state: state) => ({

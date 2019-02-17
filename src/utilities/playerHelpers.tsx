@@ -44,11 +44,14 @@ export const PLAYER = {
 export const generatePlayerPieces = (player: string) => {
   return Array(6)
     .fill(0)
-    .map((_, i) => `${player}_PIECE_${i}`);
+    .map((_, i) => ({
+      player: player,
+      piece: i
+    }));
 };
 
-const PLAYER_ONE_PIECES = generatePlayerPieces(PLAYER.ONE);
-const PLAYER_TWO_PIECES = generatePlayerPieces(PLAYER.TWO);
+// const PLAYER_ONE_PIECES = generatePlayerPieces(PLAYER.ONE);
+// const PLAYER_TWO_PIECES = generatePlayerPieces(PLAYER.TWO);
 
 export const getPlayerPiece = (player: string, piece: number) =>
   `${player}_PIECE_${piece}`;

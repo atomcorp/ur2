@@ -1,10 +1,10 @@
 import { createReducer } from 'redux-starter-kit';
-import { PLAYER, getPlayerPiece } from '../../utilities/playerHelpers';
+import { PLAYER } from '../../utilities/playerHelpers';
 
 const boardReducer = createReducer(
   {
     positions: {
-      c3: getPlayerPiece(PLAYER.ONE, 4)
+      c3: { player: PLAYER.ONE, piece: 2 }
     }
   },
   {}
