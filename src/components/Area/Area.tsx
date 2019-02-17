@@ -12,7 +12,7 @@ import {
 
 type AreaProps = {
   title: string;
-  tokens: TokenType[];
+  tokens: number;
   type: 'startArea' | 'finishArea';
   player: PLAYER_TYPE;
   onMouseOver: boolean;
@@ -45,18 +45,18 @@ const Area: React.FC<AreaProps> = (props) => (
     {/* props.tokens.map((token) => (
       <Token key={token.player + token.piece} token={token} />
     )) */}
-    <div>{props.tokens.length}</div>
+    <div>{props.tokens}</div>
   </section>
 );
 
 type ConnectState = {
   [PLAYER.ONE]: {
-    startArea: TokenType[];
-    finishArea: TokenType[];
+    startArea: number;
+    finishArea: number;
   };
   [PLAYER.TWO]: {
-    startArea: TokenType[];
-    finishArea: TokenType[];
+    startArea: number;
+    finishArea: number;
   };
 };
 

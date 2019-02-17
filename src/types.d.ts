@@ -4,10 +4,7 @@ export type PLAYER = 'PLAYER_ONE' | 'PLAYER_TWO';
 
 export type PlayerType = 'PLAYER_ONE' | 'PLAYER_TWO';
 
-export type TokenType = {
-  player: PLAYER;
-  piece: number;
-};
+export type TokenType = PlayerType;
 
 export type PositionType =
   | 'a0'

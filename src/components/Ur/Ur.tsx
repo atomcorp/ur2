@@ -14,12 +14,7 @@ const Ur: React.FC<UrProps> = (props) => (
   <Board>
     {(squareId: PositionType) => {
       if (props.previewPosition[squareId]) {
-        return (
-          <Token
-            previewed
-            token={{ player: props.previewPosition[squareId], piece: 0 }}
-          />
-        );
+        return <Token previewed token={props.previewPosition[squareId]} />;
       }
       if (props.positions[squareId]) {
         return <Token token={props.positions[squareId]} squareId={squareId} />;

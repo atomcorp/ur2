@@ -1,9 +1,5 @@
 import { createReducer, createAction } from 'redux-starter-kit';
-import {
-  PLAYER,
-  generatePlayerPieces,
-  POSITION_MAP
-} from '../../utilities/playerHelpers';
+import { PLAYER, POSITION_MAP } from '../../utilities/playerHelpers';
 import { setError } from './messageReducer';
 
 // ACTIONS
@@ -20,11 +16,10 @@ const getPlayerIndex = (playersPositions, position) =>
 export const previewTokenMoveThunk = ({ player, position }) => {
   return (dispatch, getState) => {
     const state = getState();
-    if (state[player].startArea.length < 1) {
+    if (state[player].startArea < 1) {
       return;
     }
     const playersPositions = POSITION_MAP[player];
-    console.log(playersPositions);
     const nextPosition =
       playersPositions[
         getPlayerIndex(playersPositions, position) + state.dice.count
@@ -39,12 +34,11 @@ export const previewTokenMoveThunk = ({ player, position }) => {
 };
 
 const moveStartToken = ({ startArea, dispatch, nextPosition, player }) => {
-  if (startArea.length > 0) {
-    const token = startArea[0];
+  if (startArea > 0) {
     dispatch(
       moveToken({
         nextPosition: nextPosition,
-        token,
+        token: player,
         position: 'start'
       })
     );
@@ -93,25 +87,25 @@ export const moveTokenThunk = ({ player, position, token }) => {
 };
 
 const createDefaultPlayerState = (player) => ({
-  startArea: generatePlayerPieces(player),
-  finishArea: [],
+  startArea: 6,
+  finishArea: 0,
   isTurn: player === PLAYER.ONE ? true : false
 });
 
-const getPlayerStartToken = (state, { payload }) => {
-  state.startArea.shift();
+const removePlayerStartToken = (state, { payload }) => {
+  state.startArea -= 1;
 };
 
 export const playerOneReducer = createReducer(
   createDefaultPlayerState(PLAYER.ONE),
   {
-    [removePlayerOneStartToken]: getPlayerStartToken
+    [removePlayerOneStartToken]: removePlayerStartToken
   }
 );
 
 export const playerTwoReducer = createReducer(
   createDefaultPlayerState(PLAYER.TWO),
   {
-    [removePlayerTwoStartToken]: getPlayerStartToken
+    [removePlayerTwoStartToken]: removePlayerStartToken
   }
 );

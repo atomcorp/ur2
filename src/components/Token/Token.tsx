@@ -23,20 +23,20 @@ const Token: React.FC<TokenProps> = (props) => (
     className={`${css.container} ${props.previewed ? css.preview : ''}`}
     onMouseEnter={() => {
       props.previewTokenMoveThunk({
-        player: props.token.player,
+        player: props.token,
         position: props.squareId
       });
     }}
     onMouseLeave={() => props.endPreviewMove()}
     onClick={() =>
       props.moveTokenThunk({
-        player: props.token.player,
+        player: props.token,
         position: props.squareId,
         token: props.token
       })
     }
   >
-    {props.token.player === PLAYER.ONE ? '♟' : '♙'}
+    {props.token === PLAYER.ONE ? '♟' : '♙'}
   </section>
 );
 
