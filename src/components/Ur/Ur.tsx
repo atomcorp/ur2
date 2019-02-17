@@ -2,21 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Token, Board } from '..';
 
-import { TokenType, PLAYER } from '../../types';
+import { TokenType, PLAYER, PositionType } from '../../types';
 
 type UrProps = {
-  positions: {
-    [key: string]: TokenType;
-  };
-  previewPosition: {
-    [key: string]: PLAYER;
-  };
+  positions: { [key in PositionType]: TokenType };
+  previewPosition: { [key in PositionType]: PLAYER };
   // squareId: string;
 };
 
 const Ur: React.FC<UrProps> = (props) => (
   <Board>
-    {(squareId: string) => {
+    {(squareId: PositionType) => {
       if (props.previewPosition[squareId]) {
         return (
           <Token
@@ -26,7 +22,7 @@ const Ur: React.FC<UrProps> = (props) => (
         );
       }
       if (props.positions[squareId]) {
-        return <Token token={props.positions[squareId]} />;
+        return <Token token={props.positions[squareId]} squareId={squareId} />;
       }
       return squareId;
     }}
@@ -35,12 +31,8 @@ const Ur: React.FC<UrProps> = (props) => (
 
 type state = {
   board: {
-    positions: {
-      [key: string]: TokenType;
-    };
-    previewPosition: {
-      [key: string]: PLAYER;
-    };
+    positions: { [key in PositionType]: TokenType };
+    previewPosition: { [key in PositionType]: PLAYER };
   };
 };
 

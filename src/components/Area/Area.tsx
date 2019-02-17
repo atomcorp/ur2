@@ -42,9 +42,10 @@ const Area: React.FC<AreaProps> = (props) => (
     }
   >
     {props.title}
-    {props.tokens.map((token) => (
+    {/* props.tokens.map((token) => (
       <Token key={token.player + token.piece} token={token} />
-    ))}
+    )) */}
+    <div>{props.tokens.length}</div>
   </section>
 );
 

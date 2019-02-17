@@ -14,6 +14,8 @@ const removePlayerOneStartToken = createAction('REMOVE_PLAYER_ONE_START_TOKEN');
 const removePlayerTwoStartToken = createAction('REMOVE_PLAYER_TWO_START_TOKEN');
 
 // THUNKS
+const getPlayerIndex = (playersPositions, position) =>
+  playersPositions.findIndex((square) => position === square);
 
 export const previewTokenMoveThunk = ({ player, position }) => {
   return (dispatch, getState) => {
@@ -22,7 +24,11 @@ export const previewTokenMoveThunk = ({ player, position }) => {
       return;
     }
     const playersPositions = POSITION_MAP[player];
-    const nextPosition = playersPositions[0 + state.dice.count];
+    console.log(playersPositions);
+    const nextPosition =
+      playersPositions[
+        getPlayerIndex(playersPositions, position) + state.dice.count
+      ];
     dispatch(
       previewTokenMoveAction({
         position: nextPosition,

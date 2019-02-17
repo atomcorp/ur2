@@ -13,7 +13,7 @@ const player1PositionMap = [
   'c3',
   'c2',
   'c1',
-  'a0',
+  'c0',
   'b0',
   'b1',
   'b2',
