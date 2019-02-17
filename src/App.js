@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import { Ur, Dice, Area } from './components/';
+import { Ur, Dice, Areas } from './components/';
 
 class App extends React.Component {
   render() {
@@ -12,28 +12,7 @@ class App extends React.Component {
         <div>
           <Ur />
           <Dice />
-          <div style={{ display: 'flex' }}>
-            <Area
-              title="Player one start"
-              player="playerOne"
-              type="startArea"
-            />
-            <Area
-              title="Player two start"
-              player="playerTwo"
-              type="startArea"
-            />
-            <Area
-              title="Player one finish"
-              player="playerOne"
-              type="finishArea"
-            />
-            <Area
-              title="Player one finish"
-              player="playerTwo"
-              type="finishArea"
-            />
-          </div>
+          <Areas />
         </div>
       </Provider>
     );

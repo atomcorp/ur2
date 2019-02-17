@@ -5,3 +5,4 @@ export { default as Token } from './Token/Token';
 export { default as Dice } from './Dice/Dice';
 export { default as Area } from './Area/Area';
 export { default as Ur } from './Ur/Ur';
+export { default as Areas } from './Areas/Areas';

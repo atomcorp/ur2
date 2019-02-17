@@ -1,5 +1,18 @@
-import { createReducer } from 'redux-starter-kit';
+import { createReducer, createAction } from 'redux-starter-kit';
 import { PLAYER, generatePlayerPieces } from '../../utilities/playerHelpers';
+
+// const previewTokenMove = createAction('PREVIEW_TOKEN_MOVE');
+// previewTokenMove({
+//   token,
+//   currentPosition,
+//   moves
+// });
+// const moveToken = createAction('MOVE_TOKEN');
+// moveToken({
+//   token,
+//   currentPosition,
+//   nextPosition,
+// })
 
 const createDefaultPlayerState = (player) => ({
   startArea: generatePlayerPieces(player),

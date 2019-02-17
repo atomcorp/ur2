@@ -55,3 +55,41 @@ export const generatePlayerPieces = (player: string) => {
 
 export const getPlayerPiece = (player: string, piece: number) =>
   `${player}_PIECE_${piece}`;
+
+type areaType = {
+  player: 'playerOne' | 'playerTwo';
+  type: 'startArea' | 'finishArea';
+  title: string;
+  onClick?: () => void;
+  onMouseOver?: () => void;
+}[];
+
+export const areaMap = (
+  onClick: () => void,
+  onMouseOver: () => void
+): areaType => [
+  {
+    onClick,
+    onMouseOver,
+    title: 'Player one start',
+    player: 'playerOne',
+    type: 'startArea'
+  },
+  {
+    onClick,
+    onMouseOver,
+    title: 'Player two start',
+    player: 'playerTwo',
+    type: 'startArea'
+  },
+  {
+    title: 'Player one finish',
+    player: 'playerOne',
+    type: 'finishArea'
+  },
+  {
+    title: 'Player two finish',
+    player: 'playerTwo',
+    type: 'finishArea'
+  }
+];

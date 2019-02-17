@@ -2,6 +2,7 @@
   "extends": "react-app",
   "rules": {
     "quotes": [1, "single"],
-    "arrow-parens": 1
+    "arrow-parens": 1,
+    "comma-dangle": 1
   }
 }
