@@ -6,3 +6,5 @@ export { default as Dice } from './Dice/Dice';
 export { default as Area } from './Area/Area';
 export { default as Ur } from './Ur/Ur';
 export { default as Areas } from './Areas/Areas';
+export { default as Error } from './Messages/Error';
+export { default as Status } from './Messages/Status';

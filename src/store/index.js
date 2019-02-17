@@ -4,7 +4,8 @@ import {
   boardReducer,
   diceReducer,
   playerOneReducer,
-  playerTwoReducer
+  playerTwoReducer,
+  messageReducer
 } from './reducers';
 import { PLAYER } from '../utilities/playerHelpers';
 
@@ -13,7 +14,8 @@ const store = configureStore({
     board: boardReducer,
     dice: diceReducer,
     [PLAYER.ONE]: playerOneReducer,
-    [PLAYER.TWO]: playerTwoReducer
+    [PLAYER.TWO]: playerTwoReducer,
+    message: messageReducer
   },
   middleware: [...getDefaultMiddleware(), logger]
 });

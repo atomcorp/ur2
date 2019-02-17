@@ -4,6 +4,7 @@ import {
   generatePlayerPieces,
   POSITION_MAP
 } from '../../utilities/playerHelpers';
+import { setError } from './messageReducer';
 
 // ACTIONS
 export const moveToken = createAction('MOVE_TOKEN');
@@ -50,6 +51,9 @@ export const moveTokenThunk = ({ player, position, token }) => {
             ? removePlayerOneStartToken()
             : removePlayerTwoStartToken()
         );
+      } else {
+        // dispatch error, no tiles left
+        dispatch(setError('No tokens left'));
       }
     }
   };
@@ -72,7 +76,6 @@ const createDefaultPlayerState = (player) => ({
 });
 
 const getPlayerStartToken = (state, { payload }) => {
-  console.log('hello');
   state.startArea.shift();
 };
 
