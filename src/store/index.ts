@@ -5,13 +5,14 @@ import {
   playerOneReducer,
   playerTwoReducer
 } from './reducers';
+import { PLAYER } from '../utilities/playerHelpers';
 
 const store = configureStore({
   reducer: {
     board: boardReducer,
     dice: diceReducer,
-    playerOne: playerOneReducer,
-    playerTwo: playerTwoReducer
+    [PLAYER.ONE]: playerOneReducer,
+    [PLAYER.TWO]: playerTwoReducer
   }
 });
 

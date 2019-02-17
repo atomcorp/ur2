@@ -6,11 +6,15 @@ import { areaMap } from '../../utilities/playerHelpers';
 
 // props.type === 'startArea' ? () => ({}) : voidFn
 
-const Areas = () => {
-  const areas = areaMap(() => ({}), () => ({}));
+type AreaProps = {
+  // previewTokenMoveThunk: () => void;
+};
+
+const Areas = (props: AreaProps) => {
+  // const areas = areaMap(() => ({}), () => ({}));
   return (
     <div style={{ display: 'flex' }}>
-      {areas.map((area) => (
+      {areaMap.map((area) => (
         <Area
           key={area.player + area.type}
           onClick={area.onClick}
@@ -24,4 +28,7 @@ const Areas = () => {
   );
 };
 
-export default connect(() => ({}))(Areas);
+export default connect(
+  () => ({}),
+  {}
+)(Areas);

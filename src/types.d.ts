@@ -1,8 +1,8 @@
 import { PLAYER } from './utilities/playerHelpers';
 
+export type PLAYER = 'PLAYER_ONE' | 'PLAYER_TWO';
+
 export type TokenType = {
-  player: string;
+  player: PLAYER;
   piece: number;
 };
-
-export type PLAYER = 'PLAYER_ONE' | 'PLAYER_TWO';

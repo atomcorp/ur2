@@ -1,4 +1,14 @@
-export const player1PositionMap = [
+import { PLAYER as PLAYER_TYPE } from '../types';
+
+export const PLAYER: {
+  ONE: 'PLAYER_ONE';
+  TWO: 'PLAYER_TWO';
+} = {
+  ONE: 'PLAYER_ONE',
+  TWO: 'PLAYER_TWO'
+};
+
+const player1PositionMap = [
   'start',
   'c3',
   'c2',
@@ -17,7 +27,7 @@ export const player1PositionMap = [
   'finish'
 ];
 
-export const player2PositionMap = [
+const player2PositionMap = [
   'start',
   'a3',
   'a2',
@@ -36,9 +46,12 @@ export const player2PositionMap = [
   'finish'
 ];
 
-export const PLAYER = {
-  ONE: 'PLAYER_ONE',
-  TWO: 'PLAYER_TWO'
+export const POSITION_MAP: {
+  PLAYER_ONE: string[];
+  PLAYER_TWO: string[];
+} = {
+  [PLAYER.ONE]: player1PositionMap,
+  [PLAYER.TWO]: player2PositionMap
 };
 
 export const generatePlayerPieces = (player: string) => {
@@ -57,39 +70,40 @@ export const getPlayerPiece = (player: string, piece: number) =>
   `${player}_PIECE_${piece}`;
 
 type areaType = {
-  player: 'playerOne' | 'playerTwo';
+  player: PLAYER_TYPE;
   type: 'startArea' | 'finishArea';
   title: string;
-  onClick?: () => void;
-  onMouseOver?: () => void;
+  onClick: boolean;
+  onMouseOver: boolean;
 }[];
 
-export const areaMap = (
-  onClick: () => void,
-  onMouseOver: () => void
-): areaType => [
+export const areaMap: areaType = [
   {
-    onClick,
-    onMouseOver,
+    onClick: true,
+    onMouseOver: true,
     title: 'Player one start',
-    player: 'playerOne',
+    player: PLAYER.ONE,
     type: 'startArea'
   },
   {
-    onClick,
-    onMouseOver,
+    onClick: true,
+    onMouseOver: true,
     title: 'Player two start',
-    player: 'playerTwo',
+    player: PLAYER.TWO,
     type: 'startArea'
   },
   {
+    onClick: false,
+    onMouseOver: false,
     title: 'Player one finish',
-    player: 'playerOne',
+    player: PLAYER.ONE,
     type: 'finishArea'
   },
   {
+    onClick: false,
+    onMouseOver: false,
     title: 'Player two finish',
-    player: 'playerTwo',
+    player: PLAYER.TWO,
     type: 'finishArea'
   }
 ];

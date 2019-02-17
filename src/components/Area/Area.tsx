@@ -2,19 +2,35 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Token } from '../';
-import { TokenType } from '../../types';
-import { voidFn } from '../../utilities/helpers';
+import { TokenType, PLAYER as PLAYER_TYPE } from '../../types';
+import { PLAYER } from '../../utilities/playerHelpers';
+import {
+  previewStartTokenMoveThunk,
+  endPreviewMove
+} from '../../store/reducers/playerReducer';
 
 type AreaProps = {
   title: string;
-  tokens: [TokenType];
+  tokens: TokenType[];
   type: 'startArea' | 'finishArea';
-  onMouseOver?: () => void;
-  onClick?: () => void;
+  player: PLAYER_TYPE;
+  onMouseOver: boolean;
+  onClick: boolean;
+  previewStartTokenMoveThunk: (props: any) => void;
+  endPreviewMove: () => void;
 };
 
 const Area: React.FC<AreaProps> = (props) => (
-  <section onMouseOver={props.onMouseOver} onClick={props.onClick}>
+  <section
+    onMouseEnter={() =>
+      props.previewStartTokenMoveThunk({
+        player: props.player,
+        position: props.type
+      })
+    }
+    onMouseLeave={() => props.endPreviewMove()}
+    onClick={props.onClick ? () => null : undefined}
+  >
     {props.title}
     {props.tokens.map((token) => (
       <Token key={token.player + token.piece} token={token} />
@@ -23,21 +39,24 @@ const Area: React.FC<AreaProps> = (props) => (
 );
 
 type ConnectState = {
-  playerOne: {
-    startArea: [TokenType];
-    finishArea: [TokenType];
+  [PLAYER.ONE]: {
+    startArea: TokenType[];
+    finishArea: TokenType[];
   };
-  playerTwo: {
-    startArea: [TokenType];
-    finishArea: [TokenType];
+  [PLAYER.TWO]: {
+    startArea: TokenType[];
+    finishArea: TokenType[];
   };
 };
 
 type ConnectProps = {
-  player: 'playerOne' | 'playerTwo';
+  player: PLAYER_TYPE;
   type: 'startArea' | 'finishArea';
 };
 
-export default connect((state: ConnectState, ownProps: ConnectProps) => ({
-  tokens: state[ownProps.player][ownProps.type]
-}))(Area);
+export default connect(
+  (state: ConnectState, ownProps: ConnectProps) => ({
+    tokens: state[ownProps.player][ownProps.type]
+  }),
+  { previewStartTokenMoveThunk, endPreviewMove }
+)(Area);

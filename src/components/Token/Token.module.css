@@ -1,3 +1,7 @@
 .container {
   font-size: 40px;
 }
+
+.preview {
+  opacity: 0.5;
+}

@@ -1,7 +1,7 @@
 import { createReducer, createAction } from 'redux-starter-kit';
 import { rollDice } from '../../utilities/diceHelpers';
 
-const rollDiceAction = createAction('ROLL_DICE');
+export const rollDiceAction = createAction('ROLL_DICE');
 
 export const rollDiceThunk = () => {
   return (dispatch, getState) => {
@@ -21,7 +21,7 @@ const diceReducer = createReducer(
     count: 0
   },
   {
-    [rollDiceAction]: (state, action) => {
+    [rollDiceAction.type]: (state, action) => {
       state.faces = action.payload.faces;
       state.count = action.payload.count;
     }
