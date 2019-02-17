@@ -23,7 +23,9 @@ const boardReducer = createReducer(
     [moveToken]: (state, { payload }) => {
       // nextPosition, token, position
       delete state.positions[payload.position];
-      state.positions[payload.nextPosition] = payload.token;
+      if (payload.nextPosition) {
+        state.positions[payload.nextPosition] = payload.token;
+      }
       state.previewPosition = {};
     }
   }
