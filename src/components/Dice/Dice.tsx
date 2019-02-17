@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { rollDiceThunk } from '../../store/reducers/diceReducer';
 
-const Die = ({ isOne }: { isOne: boolean }) => <div>{isOne ? '🞕' : '◻'}</div>;
+const Die: React.FC<{ isOne: boolean }> = ({ isOne }) => (
+  <div>{isOne ? '🞕' : '◻'}</div>
+);
 
 type DiceProps = {
   faces: [number];
   rollDiceThunk: () => void;
 };
 
-const Dice = (props: DiceProps) => {
-  // const [dice, setDice] = useState([0, 0, 0, 0]);
-  return (
-    <section>
-      {props.faces.map((die, i) => (
-        <Die key={i} isOne={die === 1 ? true : false} />
-      ))}
-      <button onClick={props.rollDiceThunk}>Roll</button>
-    </section>
-  );
-};
+const Dice: React.FC<DiceProps> = (props) => (
+  <section>
+    {props.faces.map((die, i) => (
+      <Die key={i} isOne={die === 1 ? true : false} />
+    ))}
+    <button onClick={props.rollDiceThunk}>Roll</button>
+  </section>
+);
 
 type StateProps = {
   dice: {

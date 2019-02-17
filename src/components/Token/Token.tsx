@@ -7,7 +7,7 @@ type TokenProps = {
   token: TokenType;
 };
 
-const Token = (props: TokenProps) => (
+const Token: React.FC<TokenProps> = (props) => (
   <section className={css.container}>
     {props.token.player === PLAYER.ONE ? '♟' : '♙'}
   </section>
