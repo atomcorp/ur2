@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Token } from '../';
-import { TokenType, PLAYER } from '../../types';
+import { TokenType } from '../../types';
 
 type AreaProps = { title: string; tokens: [TokenType] };
 

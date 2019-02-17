@@ -3,15 +3,14 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import { UrBoard, Dice, Area } from './components/';
-import { PLAYER } from './utilities/playerHelpers';
+import { Ur, Dice, Area } from './components/';
 
 class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
         <div>
-          <UrBoard />
+          <Ur />
           <Dice />
           <div style={{ display: 'flex' }}>
             <Area
