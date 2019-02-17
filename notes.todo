@@ -1,3 +1,9 @@
 Next:
   ☐ Collision between different players tokens
   ☐ Special square rules
+  ☐ turns 
+  ☐ blocking actions
+    ☐ not your turn
+    ☐ rolled a 0
+    ☐ no legal moves
+  ☐ win/lose state
