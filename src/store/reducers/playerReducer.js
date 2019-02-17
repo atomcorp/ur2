@@ -38,42 +38,59 @@ export const previewTokenMoveThunk = ({ player, position }) => {
   };
 };
 
+const moveStartToken = ({ startArea, dispatch, nextPosition, player }) => {
+  if (startArea.length > 0) {
+    const token = startArea[0];
+    dispatch(
+      moveToken({
+        nextPosition: nextPosition,
+        token,
+        position: 'start'
+      })
+    );
+    // remove from players start stack
+    dispatch(
+      player === PLAYER.ONE
+        ? removePlayerOneStartToken()
+        : removePlayerTwoStartToken()
+    );
+  } else {
+    // dispatch error, no tiles left
+    dispatch(setError('No tokens left'));
+  }
+};
+
+const isNextMoveInvalid = ({ nextPosition, dispatch, state }) => {
+  if (nextPosition == null) {
+    dispatch(setError('No tokens left'));
+    return false;
+  }
+  if (state.board.positions[nextPosition]) {
+  }
+};
+
 export const moveTokenThunk = ({ player, position, token }) => {
   return (dispatch, getState) => {
     const state = getState();
     const playersPositions = POSITION_MAP[player];
     const nextPosition =
       playersPositions[
-        playersPositions.findIndex((square) => position === square) +
-          state.dice.count
+        getPlayerIndex(playersPositions, position) + state.dice.count
       ];
-    if (position === 'start') {
-      if (state[player].startArea.length > 0) {
-        token = state[player].startArea[0];
-        dispatch(moveToken({ nextPosition, token, position }));
-        // remove from players start stack
-        dispatch(
-          player === PLAYER.ONE
-            ? removePlayerOneStartToken()
-            : removePlayerTwoStartToken()
-        );
-      } else {
-        // dispatch error, no tiles left
-        dispatch(setError('No tokens left'));
-      }
+    if (isNextMoveInvalid({ nextPosition, dispatch, state })) {
     }
+    if (position === 'start') {
+      moveStartToken({
+        dispatch,
+        player,
+        nextPosition,
+        startArea: state[player].startArea
+      });
+      return;
+    }
+    dispatch(moveToken({ nextPosition, token, position }));
   };
 };
-
-// const moveTokenFromStartThunk = ({ player,token }) => {
-//   return (dispatch, getState) => {
-//     const state = getState();
-//     if (state[player].startArea.length > 0) {
-//       // send token to board position
-
-//     }
-//   };
-// };
 
 const createDefaultPlayerState = (player) => ({
   startArea: generatePlayerPieces(player),

@@ -28,13 +28,13 @@ const Token: React.FC<TokenProps> = (props) => (
       });
     }}
     onMouseLeave={() => props.endPreviewMove()}
-    // onClick={() =>
-    //   props.moveTokenThunk({
-    //     player: props.token.player,
-    //     position: props.squareId,
-    //     token: props.token
-    //   })
-    // }
+    onClick={() =>
+      props.moveTokenThunk({
+        player: props.token.player,
+        position: props.squareId,
+        token: props.token
+      })
+    }
   >
     {props.token.player === PLAYER.ONE ? '♟' : '♙'}
   </section>
