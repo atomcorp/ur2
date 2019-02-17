@@ -5,8 +5,9 @@ import { Token } from '../';
 import { TokenType, PLAYER as PLAYER_TYPE } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import {
-  previewStartTokenMoveThunk,
-  endPreviewMove
+  previewTokenMoveThunk,
+  endPreviewMove,
+  moveTokenThunk
 } from '../../store/reducers/playerReducer';
 
 type AreaProps = {
@@ -16,20 +17,29 @@ type AreaProps = {
   player: PLAYER_TYPE;
   onMouseOver: boolean;
   onClick: boolean;
-  previewStartTokenMoveThunk: (props: any) => void;
+  previewTokenMoveThunk: (props: any) => void;
   endPreviewMove: () => void;
+  moveTokenThunk: (props: any) => void;
 };
 
 const Area: React.FC<AreaProps> = (props) => (
   <section
-    onMouseEnter={() =>
-      props.previewStartTokenMoveThunk({
-        player: props.player,
-        position: props.type
-      })
+    onMouseEnter={
+      props.onMouseOver
+        ? () =>
+            props.previewTokenMoveThunk({
+              player: props.player,
+              position: 'start'
+            })
+        : undefined
     }
-    onMouseLeave={() => props.endPreviewMove()}
-    onClick={props.onClick ? () => null : undefined}
+    onMouseLeave={props.onMouseOver ? () => props.endPreviewMove() : undefined}
+    onClick={
+      props.onMouseOver
+        ? () =>
+            props.moveTokenThunk({ player: props.player, position: 'start' })
+        : undefined
+    }
   >
     {props.title}
     {props.tokens.map((token) => (
@@ -58,5 +68,5 @@ export default connect(
   (state: ConnectState, ownProps: ConnectProps) => ({
     tokens: state[ownProps.player][ownProps.type]
   }),
-  { previewStartTokenMoveThunk, endPreviewMove }
+  { previewTokenMoveThunk, endPreviewMove, moveTokenThunk }
 )(Area);

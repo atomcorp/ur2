@@ -1,6 +1,10 @@
 import { createReducer } from 'redux-starter-kit';
 // import { PLAYER } from '../../utilities/playerHelpers';
-import { previewTokenMoveAction, endPreviewMove } from './playerReducer';
+import {
+  previewTokenMoveAction,
+  endPreviewMove,
+  moveToken
+} from './playerReducer';
 const boardReducer = createReducer(
   {
     positions: {
@@ -15,6 +19,11 @@ const boardReducer = createReducer(
     },
     [endPreviewMove]: (state) => {
       state.previewPosition = {};
+    },
+    [moveToken]: (state, { payload }) => {
+      // nextPosition, token, position
+      delete state.positions[payload.position];
+      state.positions[payload.nextPosition] = payload.token;
     }
   }
 );

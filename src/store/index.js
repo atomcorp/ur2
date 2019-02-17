@@ -1,4 +1,5 @@
-import { configureStore } from 'redux-starter-kit';
+import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import logger from 'redux-logger';
 import {
   boardReducer,
   diceReducer,
@@ -13,7 +14,8 @@ const store = configureStore({
     dice: diceReducer,
     [PLAYER.ONE]: playerOneReducer,
     [PLAYER.TWO]: playerTwoReducer
-  }
+  },
+  middleware: [...getDefaultMiddleware(), logger]
 });
 
 export default store;
