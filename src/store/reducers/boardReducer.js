@@ -4,7 +4,7 @@ import { PLAYER, getPlayerPiece } from '../../utilities/playerHelpers';
 const boardReducer = createReducer(
   {
     positions: {
-      b1: getPlayerPiece(PLAYER.ONE, 4)
+      c3: getPlayerPiece(PLAYER.ONE, 4)
     }
   },
   {}

@@ -41,7 +41,7 @@ export const PLAYER = {
   TWO: 'PLAYER_TWO'
 };
 
-const generatePlayerPieces = (player: string) => {
+export const generatePlayerPieces = (player: string) => {
   return Array(6)
     .fill(0)
     .map((_, i) => `${player}_PIECE_${i}`);

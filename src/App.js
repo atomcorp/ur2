@@ -3,13 +3,16 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import { UrBoard } from './components/';
+import { UrBoard, Dice } from './components/';
 
 class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <UrBoard />
+        <div>
+          <UrBoard />
+          <Dice />
+        </div>
       </Provider>
     );
   }
