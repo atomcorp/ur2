@@ -1,15 +1,38 @@
 import { createReducer, createAction } from 'redux-starter-kit';
-import { PLAYER, POSITION_MAP } from '../../utilities/playerHelpers';
-import { setError } from './messageReducer';
+import {
+  PLAYER,
+  POSITION_MAP,
+  oppositePlayer,
+} from '../../utilities/playerHelpers';
+import {
+  moveTokenFromStart,
+  moveTokenToFinish,
+  isNextMoveInvalid,
+  moveOppositionTokenBackToStart,
+} from '../../utilities/moveHelpers';
 
 // ACTIONS
 export const moveToken = createAction('MOVE_TOKEN');
 export const previewTokenMoveAction = createAction('PREVIEW_TOKEN_MOVE');
 export const endPreviewMove = createAction('END_MOVE_PREVIEW');
-const removePlayerOneStartToken = createAction('REMOVE_PLAYER_ONE_START_TOKEN');
-const removePlayerTwoStartToken = createAction('REMOVE_PLAYER_TWO_START_TOKEN');
-const addPlayerOneFinishToken = createAction('ADD_PLAYER_ONE_FINISH_TOKEN');
-const addPlayerTwoFinishToken = createAction('ADD_PLAYER_TWO_FINISH_TOKEN');
+export const removePlayerOneStartToken = createAction(
+  'REMOVE_PLAYER_ONE_START_TOKEN'
+);
+export const removePlayerTwoStartToken = createAction(
+  'REMOVE_PLAYER_TWO_START_TOKEN'
+);
+export const addPlayerOneFinishToken = createAction(
+  'ADD_PLAYER_ONE_FINISH_TOKEN'
+);
+export const addPlayerTwoFinishToken = createAction(
+  'ADD_PLAYER_TWO_FINISH_TOKEN'
+);
+export const addPlayerOneStartToken = createAction(
+  'ADD_START_PLAYER_ONE_TOKEN'
+);
+export const addPlayerTwoStartToken = createAction(
+  'ADD_START_PLAYER_TWO_TOKEN'
+);
 
 // THUNKS
 const getPlayerIndex = (playersPositions, position) =>
@@ -29,66 +52,10 @@ export const previewTokenMoveThunk = ({ player, position }) => {
     dispatch(
       previewTokenMoveAction({
         position: nextPosition,
-        player
+        player,
       })
     );
   };
-};
-
-const moveTokenFromStart = ({ startArea, dispatch, nextPosition, player }) => {
-  if (startArea > 0) {
-    dispatch(
-      moveToken({
-        nextPosition: nextPosition,
-        token: player,
-        position: 'start'
-      })
-    );
-    // remove from players start stack
-    dispatch(
-      player === PLAYER.ONE
-        ? removePlayerOneStartToken()
-        : removePlayerTwoStartToken()
-    );
-  } else {
-    // dispatch error, no tiles left
-    dispatch(setError('No tokens left'));
-  }
-};
-
-const moveTokenToFinish = ({ player, dispatch, position }) => {
-  dispatch(
-    moveToken({
-      position,
-      token: player
-    })
-  );
-  // add to players finish stack
-  dispatch(
-    player === PLAYER.ONE
-      ? addPlayerOneFinishToken()
-      : addPlayerTwoFinishToken()
-  );
-};
-
-const isNextMoveInvalid = ({ nextPosition, dispatch, state, player }) => {
-  if (state.dice.count < 1) {
-    dispatch(setError('You must roll over 1'));
-    return true;
-  }
-  if (nextPosition == null) {
-    dispatch(setError('You need to roll exactly to leave'));
-    return true;
-  }
-  if (
-    nextPosition in state.board.positions &&
-    state.board.positions[nextPosition] === player
-  ) {
-    dispatch(setError('You can\'t move move to a square you already occupy'));
-    return true;
-    // if a tile of yours  already in position
-  }
-  return false;
 };
 
 export const moveTokenThunk = ({ player, position, token }) => {
@@ -108,13 +75,20 @@ export const moveTokenThunk = ({ player, position, token }) => {
         dispatch,
         player,
         nextPosition,
-        startArea: state[player].startArea
+        startArea: state[player].startArea,
       });
       return;
     }
     if (nextPosition === 'finish') {
       moveTokenToFinish({ dispatch, player, position });
       return;
+    }
+    // if move to same space as opponent
+    if (
+      nextPosition in state.board.positions &&
+      state.board.positions[nextPosition] === oppositePlayer(player)
+    ) {
+      moveOppositionTokenBackToStart({ player, dispatch });
     }
     dispatch(moveToken({ nextPosition, token, position }));
   };
@@ -123,7 +97,7 @@ export const moveTokenThunk = ({ player, position, token }) => {
 const createDefaultPlayerState = (player) => ({
   startArea: 6,
   finishArea: 0,
-  isTurn: player === PLAYER.ONE ? true : false
+  isTurn: player === PLAYER.ONE ? true : false,
 });
 
 const removePlayerStartToken = (state, { payload }) => {
@@ -134,11 +108,16 @@ const addPlayerFinishToken = (state, { payload }) => {
   state.finishArea += 1;
 };
 
+const addPlayerStartToken = (state, { payload }) => {
+  state.startArea += 1;
+};
+
 export const playerOneReducer = createReducer(
   createDefaultPlayerState(PLAYER.ONE),
   {
     [removePlayerOneStartToken]: removePlayerStartToken,
-    [addPlayerOneFinishToken]: addPlayerFinishToken
+    [addPlayerOneFinishToken]: addPlayerFinishToken,
+    [addPlayerOneStartToken]: addPlayerStartToken,
   }
 );
 
@@ -146,6 +125,7 @@ export const playerTwoReducer = createReducer(
   createDefaultPlayerState(PLAYER.TWO),
   {
     [removePlayerTwoStartToken]: removePlayerStartToken,
-    [addPlayerTwoFinishToken]: addPlayerFinishToken
+    [addPlayerTwoFinishToken]: addPlayerFinishToken,
+    [addPlayerTwoStartToken]: addPlayerStartToken,
   }
 );

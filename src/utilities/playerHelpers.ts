@@ -107,3 +107,10 @@ export const areaMap: areaType = [
     type: 'finishArea'
   }
 ];
+
+export const oppositePlayer = (currentPlayer: PLAYER_TYPE) => {
+  if (currentPlayer === PLAYER.ONE) {
+    return PLAYER.TWO;
+  }
+  return PLAYER.ONE;
+};
