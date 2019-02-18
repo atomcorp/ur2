@@ -8,7 +8,11 @@ import {
   addPlayerOneStartToken,
   addPlayerTwoStartToken,
 } from '../store/reducers/playerReducer';
-import { PLAYER } from './playerHelpers';
+import {
+  PLAYER,
+  positionIsSpecialSquare,
+  oppositePlayer,
+} from './playerHelpers';
 
 export const isNextMoveInvalid = ({
   nextPosition,
@@ -24,13 +28,22 @@ export const isNextMoveInvalid = ({
     dispatch(setError('You need to roll exactly to leave'));
     return true;
   }
+  // if a tile of yours is already in nextPosition
   if (
     nextPosition in state.board.positions &&
     state.board.positions[nextPosition] === player
   ) {
     dispatch(setError('You can\'t move move to a square you already occupy'));
     return true;
-    // if a tile of yours  already in position
+  }
+  // if tile is opposition, but a special square
+  if (
+    nextPosition in state.board.positions &&
+    oppositePlayer(state.board.positions[nextPosition]) &&
+    positionIsSpecialSquare(nextPosition)
+  ) {
+    dispatch(setError('You can\'t move move to an occupied special square'));
+    return true;
   }
   return false;
 };

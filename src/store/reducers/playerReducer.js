@@ -61,11 +61,12 @@ export const previewTokenMoveThunk = ({ player, position }) => {
 export const moveTokenThunk = ({ player, position, token }) => {
   return (dispatch, getState) => {
     const state = getState();
-    const playersPositions = POSITION_MAP[player];
     const nextPosition =
-      playersPositions[
-        getPlayerIndex(playersPositions, position) + state.dice.count
+      POSITION_MAP[player][
+        getPlayerIndex(POSITION_MAP[player], position) + state.dice.count
       ];
+
+    // if move invalid, cancel
     if (isNextMoveInvalid({ nextPosition, dispatch, state, player })) {
       return;
     }
@@ -83,14 +84,13 @@ export const moveTokenThunk = ({ player, position, token }) => {
       moveTokenToFinish({ dispatch, player, position });
       return;
     }
-    // if move to same space as opponent
-    if (
-      nextPosition in state.board.positions &&
-      state.board.positions[nextPosition] === oppositePlayer(player)
-    ) {
+    // if opponent token in same position, move to start
+    if (state.board.positions[nextPosition] === oppositePlayer(player)) {
       moveOppositionTokenBackToStart({ player, dispatch });
     }
     dispatch(moveToken({ nextPosition, token, position }));
+    // move turn
+    // if special square, get another turn
   };
 };
 

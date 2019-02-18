@@ -5,7 +5,7 @@ export const PLAYER: {
   TWO: 'PLAYER_TWO';
 } = {
   ONE: 'PLAYER_ONE',
-  TWO: 'PLAYER_TWO'
+  TWO: 'PLAYER_TWO',
 };
 
 const player1PositionMap = [
@@ -24,7 +24,7 @@ const player1PositionMap = [
   'b7',
   'c7',
   'c6',
-  'finish'
+  'finish',
 ];
 
 const player2PositionMap = [
@@ -43,7 +43,7 @@ const player2PositionMap = [
   'b7',
   'a7',
   'a6',
-  'finish'
+  'finish',
 ];
 
 export const POSITION_MAP: {
@@ -51,7 +51,7 @@ export const POSITION_MAP: {
   PLAYER_TWO: string[];
 } = {
   [PLAYER.ONE]: player1PositionMap,
-  [PLAYER.TWO]: player2PositionMap
+  [PLAYER.TWO]: player2PositionMap,
 };
 
 export const generatePlayerPieces = (player: string) => {
@@ -59,7 +59,7 @@ export const generatePlayerPieces = (player: string) => {
     .fill(0)
     .map((_, i) => ({
       player: player,
-      piece: i
+      piece: i,
     }));
 };
 
@@ -83,29 +83,29 @@ export const areaMap: areaType = [
     onMouseOver: true,
     title: 'Player one start',
     player: PLAYER.ONE,
-    type: 'startArea'
+    type: 'startArea',
   },
   {
     onClick: true,
     onMouseOver: true,
     title: 'Player two start',
     player: PLAYER.TWO,
-    type: 'startArea'
+    type: 'startArea',
   },
   {
     onClick: false,
     onMouseOver: false,
     title: 'Player one finish',
     player: PLAYER.ONE,
-    type: 'finishArea'
+    type: 'finishArea',
   },
   {
     onClick: false,
     onMouseOver: false,
     title: 'Player two finish',
     player: PLAYER.TWO,
-    type: 'finishArea'
-  }
+    type: 'finishArea',
+  },
 ];
 
 export const oppositePlayer = (currentPlayer: PLAYER_TYPE) => {
@@ -114,3 +114,8 @@ export const oppositePlayer = (currentPlayer: PLAYER_TYPE) => {
   }
   return PLAYER.ONE;
 };
+
+const specialSquares = ['c0', 'a0', 'b3', 'c6', 'a6'];
+
+export const positionIsSpecialSquare = (position: string) =>
+  specialSquares.find((specialSquare) => specialSquare === position);
