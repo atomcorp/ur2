@@ -1,4 +1,4 @@
-import { setError } from '../store/reducers/messageReducer';
+import { setError } from '../store/messageReducer';
 import {
   moveToken,
   addPlayerOneFinishToken,
@@ -7,7 +7,7 @@ import {
   removePlayerTwoStartToken,
   addPlayerOneStartToken,
   addPlayerTwoStartToken,
-} from '../store/reducers/playerReducer';
+} from '../store/playerReducer';
 import {
   PLAYER,
   positionIsSpecialSquare,

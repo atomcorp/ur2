@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { rollDiceThunk } from '../../store/reducers/diceReducer';
+import { rollDiceThunk } from '../../store/diceReducer';
 
 const Die: React.FC<{ isOne: boolean }> = ({ isOne }) => (
   <div>{isOne ? '🞕' : '◻'}</div>
@@ -29,7 +29,7 @@ type StateProps = {
 
 export default connect(
   (state: StateProps) => ({
-    faces: state.dice.faces
+    faces: state.dice.faces,
   }),
   { rollDiceThunk }
 )(Dice);

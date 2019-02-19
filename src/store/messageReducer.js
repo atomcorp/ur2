@@ -7,7 +7,7 @@ export const clearMessages = createAction('CLEAR_MESSAGES');
 const messageReducer = createReducer(
   {
     error: '',
-    status: ''
+    status: '',
   },
   {
     [setError]: (state, { payload }) => {
@@ -19,7 +19,7 @@ const messageReducer = createReducer(
     [clearMessages]: (state) => {
       state.error = '';
       state.status = '';
-    }
+    },
   }
 );
 

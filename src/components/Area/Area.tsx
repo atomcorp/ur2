@@ -7,8 +7,8 @@ import { PLAYER } from '../../utilities/playerHelpers';
 import {
   previewTokenMoveThunk,
   endPreviewMove,
-  moveTokenThunk
-} from '../../store/reducers/playerReducer';
+  moveTokenThunk,
+} from '../../store/playerReducer';
 
 type AreaProps = {
   title: string;
@@ -29,7 +29,7 @@ const Area: React.FC<AreaProps> = (props) => (
         ? () =>
             props.previewTokenMoveThunk({
               player: props.player,
-              position: 'start'
+              position: 'start',
             })
         : undefined
     }
@@ -67,7 +67,7 @@ type ConnectProps = {
 
 export default connect(
   (state: ConnectState, ownProps: ConnectProps) => ({
-    tokens: state[ownProps.player][ownProps.type]
+    tokens: state[ownProps.player][ownProps.type],
   }),
   { previewTokenMoveThunk, endPreviewMove, moveTokenThunk }
 )(Area);

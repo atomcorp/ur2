@@ -1,12 +1,10 @@
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import logger from 'redux-logger';
-import {
-  boardReducer,
-  diceReducer,
-  playerOneReducer,
-  playerTwoReducer,
-  messageReducer
-} from './reducers';
+import boardReducer from './boardReducer';
+import diceReducer from './diceReducer';
+import { playerOneReducer, playerTwoReducer } from './playerReducer';
+import messageReducer from './messageReducer';
+import gameReducer from './gameReducer';
 import { PLAYER } from '../utilities/playerHelpers';
 
 const store = configureStore({
@@ -15,9 +13,10 @@ const store = configureStore({
     dice: diceReducer,
     [PLAYER.ONE]: playerOneReducer,
     [PLAYER.TWO]: playerTwoReducer,
-    message: messageReducer
+    message: messageReducer,
+    game: gameReducer,
   },
-  middleware: [...getDefaultMiddleware(), logger]
+  middleware: [...getDefaultMiddleware(), logger],
 });
 
 export default store;

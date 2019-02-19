@@ -3,13 +3,13 @@ import {
   PLAYER,
   POSITION_MAP,
   oppositePlayer,
-} from '../../utilities/playerHelpers';
+} from '../utilities/playerHelpers';
 import {
   moveTokenFromStart,
   moveTokenToFinish,
   isNextMoveInvalid,
   moveOppositionTokenBackToStart,
-} from '../../utilities/moveHelpers';
+} from '../utilities/moveHelpers';
 
 // ACTIONS
 export const moveToken = createAction('MOVE_TOKEN');

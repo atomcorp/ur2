@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import { Ur, Dice, Areas, Status, Error } from './components/';
+import { Ur, Dice, Areas, Status, Error, Start, Turn } from './components/';
 
 class App extends React.Component {
   render() {
@@ -15,6 +15,8 @@ class App extends React.Component {
           <Ur />
           <Dice />
           <Areas />
+          <Start />
+          <Turn />
         </div>
       </Provider>
     );

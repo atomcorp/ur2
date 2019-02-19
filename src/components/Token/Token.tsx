@@ -2,8 +2,8 @@ import React from 'react';
 import {
   moveTokenThunk,
   previewTokenMoveThunk,
-  endPreviewMove
-} from '../../store/reducers/playerReducer';
+  endPreviewMove,
+} from '../../store/playerReducer';
 import { TokenType, PositionType, PlayerType } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import css from './Token.module.css';
@@ -24,7 +24,7 @@ const Token: React.FC<TokenProps> = (props) => (
     onMouseEnter={() => {
       props.previewTokenMoveThunk({
         player: props.token,
-        position: props.squareId
+        position: props.squareId,
       });
     }}
     onMouseLeave={() => props.endPreviewMove()}
@@ -32,7 +32,7 @@ const Token: React.FC<TokenProps> = (props) => (
       props.moveTokenThunk({
         player: props.token,
         position: props.squareId,
-        token: props.token
+        token: props.token,
       })
     }
   >
