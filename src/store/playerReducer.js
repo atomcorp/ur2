@@ -11,7 +11,7 @@ import {
   isNextMoveInvalid,
   // moveOppositionTokenBackToStart,
 } from '../utilities/moveHelpers';
-import { startTurn, toggleTurn } from './gameReducer';
+import { startTurn, toggleTurn, testEndGameThunk } from './gameReducer';
 
 // ACTIONS
 export const moveToken = createAction('MOVE_TOKEN');
@@ -83,6 +83,7 @@ export const moveTokenThunk = ({ player, position, token }) => {
     }
     if (nextPosition === 'finish') {
       moveTokenToFinish({ dispatch, player, position });
+      dispatch(testEndGameThunk());
       return;
     }
     // if opponent token in same position, move to start
