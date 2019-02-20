@@ -6,9 +6,9 @@ import { TokenType, PlayerType } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import {
   previewTokenMoveThunk,
-  endPreviewMove,
   moveTokenThunk,
 } from '../../store/playerReducer';
+import { endPreviewMove } from '../../store/actions';
 
 type AreaProps = {
   title: string;

@@ -34,3 +34,8 @@ export const isNextMoveInvalid = ({
   }
   return false;
 };
+
+export const returnCurrentPlayersFinishTokens = (state) => {
+  const currentPlayer = state.game.turn;
+  return state[currentPlayer].finishArea;
+};

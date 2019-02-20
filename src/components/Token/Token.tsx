@@ -2,8 +2,9 @@ import React from 'react';
 import {
   moveTokenThunk,
   previewTokenMoveThunk,
-  endPreviewMove,
 } from '../../store/playerReducer';
+import { endPreviewMove } from '../../store/actions';
+
 import { TokenType, PositionType, PlayerType } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import css from './Token.module.css';

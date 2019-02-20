@@ -1,41 +1,28 @@
-import { createReducer, createAction } from 'redux-starter-kit';
+import { createReducer } from 'redux-starter-kit';
+import {
+  moveToken,
+  previewTokenMove,
+  removePlayerOneStartToken,
+  removePlayerTwoStartToken,
+  addPlayerOneFinishToken,
+  addPlayerTwoFinishToken,
+  addPlayerOneStartToken,
+  addPlayerTwoStartToken,
+  togglePlayerOneCanMove,
+  togglePlayerTwoCanMove,
+} from './actions';
 import {
   PLAYER,
   POSITION_MAP,
   oppositePlayer,
   positionIsSpecialSquare,
 } from '../utilities/playerHelpers';
-import { isNextMoveInvalid } from '../utilities/moveHelpers';
+import {
+  isNextMoveInvalid,
+  returnCurrentPlayersFinishTokens,
+} from '../utilities/moveHelpers';
 import { startTurn, toggleTurn, testEndGameThunk } from './gameReducer';
 
-// ACTIONS
-export const moveToken = createAction('MOVE_TOKEN');
-export const previewTokenMoveAction = createAction('PREVIEW_TOKEN_MOVE');
-export const endPreviewMove = createAction('END_MOVE_PREVIEW');
-export const removePlayerOneStartToken = createAction(
-  'REMOVE_PLAYER_ONE_START_TOKEN'
-);
-export const removePlayerTwoStartToken = createAction(
-  'REMOVE_PLAYER_TWO_START_TOKEN'
-);
-export const addPlayerOneFinishToken = createAction(
-  'ADD_PLAYER_ONE_FINISH_TOKEN'
-);
-export const addPlayerTwoFinishToken = createAction(
-  'ADD_PLAYER_TWO_FINISH_TOKEN'
-);
-export const addPlayerOneStartToken = createAction(
-  'ADD_START_PLAYER_ONE_TOKEN'
-);
-export const addPlayerTwoStartToken = createAction(
-  'ADD_START_PLAYER_TWO_TOKEN'
-);
-export const togglePlayerOneCanMove = createAction(
-  'TOGGLE_PLAYER_ONE_CAN_MOVE'
-);
-export const togglePlayerTwoCanMove = createAction(
-  'TOGGLE_PLAYER_TWO_CAN_MOVE'
-);
 // THUNKS
 const getPlayerIndex = (playersPositions, position) =>
   playersPositions.findIndex((square) => position === square);
@@ -50,7 +37,7 @@ export const previewTokenMoveThunk = ({ player, position }) => {
         getPlayerIndex(playersPositions, position) + state.dice.count
       ];
     dispatch(
-      previewTokenMoveAction({
+      previewTokenMove({
         position: nextPosition,
         player,
       })
@@ -133,10 +120,7 @@ export const togglePlayerCanMoveThunk = () => (dispatch, getState) => {
   }
 };
 
-const returnCurrentPlayersFinishTokens = (state) => {
-  const currentPlayer = state.game.turn;
-  return state[currentPlayer].finishArea;
-};
+// REDUCERS
 
 const createDefaultPlayerState = (player) => ({
   startArea: 6,
