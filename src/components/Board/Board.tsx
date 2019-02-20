@@ -1,13 +1,14 @@
 import React from 'react';
 import { Square, BoardRow, Token } from '..';
-import { BOARD_KEYS } from '../../utilities/boardHelpers';
+import { boardKeys } from '../../utilities/boardHelpers';
+import { PositionType } from '../../types';
 
 const Board: React.FC = (props) => (
   <section>
-    {BOARD_KEYS.map((row, i) => (
+    {boardKeys.map((row: PositionType[], i: number) => (
       <BoardRow key={i}>
-        {row.map((squareId) => (
-          <Square key={squareId}>
+        {row.map((squareId: PositionType) => (
+          <Square key={squareId} id={squareId}>
             {typeof props.children === 'function' && props.children(squareId)}
           </Square>
         ))}
