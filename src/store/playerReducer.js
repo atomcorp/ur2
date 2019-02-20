@@ -5,12 +5,7 @@ import {
   oppositePlayer,
   positionIsSpecialSquare,
 } from '../utilities/playerHelpers';
-import {
-  // moveTokenFromStart,
-  moveTokenToFinish,
-  isNextMoveInvalid,
-  // moveOppositionTokenBackToStart,
-} from '../utilities/moveHelpers';
+import { isNextMoveInvalid } from '../utilities/moveHelpers';
 import { startTurn, toggleTurn, testEndGameThunk } from './gameReducer';
 
 // ACTIONS
@@ -48,9 +43,7 @@ const getPlayerIndex = (playersPositions, position) =>
 export const previewTokenMoveThunk = ({ player, position }) => {
   return (dispatch, getState) => {
     const state = getState();
-    if (state[player].startArea < 1) {
-      return;
-    }
+
     const playersPositions = POSITION_MAP[player];
     const nextPosition =
       playersPositions[

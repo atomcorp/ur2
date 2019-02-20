@@ -1,18 +1,5 @@
 import { setError } from '../store/messageReducer';
-import {
-  moveToken,
-  addPlayerOneFinishToken,
-  addPlayerTwoFinishToken,
-  removePlayerOneStartToken,
-  removePlayerTwoStartToken,
-  addPlayerOneStartToken,
-  addPlayerTwoStartToken,
-} from '../store/playerReducer';
-import {
-  PLAYER,
-  positionIsSpecialSquare,
-  oppositePlayer,
-} from './playerHelpers';
+import { oppositePlayer, positionIsSpecialSquare } from './playerHelpers';
 
 export const isNextMoveInvalid = ({
   nextPosition,
@@ -47,49 +34,3 @@ export const isNextMoveInvalid = ({
   }
   return false;
 };
-
-export const moveTokenToFinish = ({ player, dispatch, position }) => {
-  dispatch(
-    moveToken({
-      position,
-      token: player,
-    })
-  );
-  // add to players finish stack
-  dispatch(
-    player === PLAYER.ONE
-      ? addPlayerOneFinishToken()
-      : addPlayerTwoFinishToken()
-  );
-};
-
-export const moveTokenFromStart = ({
-  startArea,
-  dispatch,
-  nextPosition,
-  player,
-}) => {
-  if (startArea > 0) {
-    dispatch(
-      moveToken({
-        nextPosition: nextPosition,
-        token: player,
-        position: 'start',
-      })
-    );
-    // remove from players start stack
-    dispatch(
-      player === PLAYER.ONE
-        ? removePlayerOneStartToken()
-        : removePlayerTwoStartToken()
-    );
-  } else {
-    // dispatch error, no tiles left
-    dispatch(setError('No tokens left'));
-  }
-};
-
-export const moveOppositionTokenBackToStart = ({ player, dispatch }) =>
-  player === PLAYER.ONE
-    ? dispatch(addPlayerTwoStartToken())
-    : dispatch(addPlayerOneStartToken());

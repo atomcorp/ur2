@@ -75,7 +75,8 @@ type ConnectProps = {
 export default connect(
   (state: ConnectState, ownProps: ConnectProps) => ({
     tokens: state[ownProps.player][ownProps.type],
-    canMove: state[ownProps.player].canMove,
+    canMove:
+      state[ownProps.player].canMove && state[ownProps.player].startArea > 0,
   }),
   { previewTokenMoveThunk, endPreviewMove, moveTokenThunk }
 )(Area);
