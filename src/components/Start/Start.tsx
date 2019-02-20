@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { startGameThunk, endGame } from '../../store/gameReducer';
+import { startGameThunk } from '../../store/gameReducer';
+import { endGame } from '../../store/actions';
 
 type StartProps = {
   hasStarted: boolean;

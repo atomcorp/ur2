@@ -1,16 +1,12 @@
-import { createReducer, createAction } from 'redux-starter-kit';
-
+import { createReducer } from 'redux-starter-kit';
 import { PLAYER, oppositePlayer } from '../utilities/playerHelpers';
-
-export const startGame = createAction('START_GAME');
-export const endGame = createAction('END_GAME');
-
-export const toggleTurn = createAction('TOGGLE_TURN');
-export const startTurn = createAction('START_TURN');
-export const endTurn = createAction('END_TURN');
-export const setWinner = createAction('SET_WINNER');
-
-// const turnThunk = () => (dispatch, getState) => {};
+import {
+  startGame,
+  endGame,
+  toggleTurn,
+  startTurn,
+  setWinner,
+} from './actions';
 
 export const startGameThunk = () => (dispatch, getState) => {
   dispatch(startGame());

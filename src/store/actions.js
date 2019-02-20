@@ -27,3 +27,12 @@ export const togglePlayerOneCanMove = createAction(
 export const togglePlayerTwoCanMove = createAction(
   'TOGGLE_PLAYER_TWO_CAN_MOVE'
 );
+export const setError = createAction('SET_ERROR');
+export const setStatus = createAction('SET_STATUS');
+export const clearMessages = createAction('CLEAR_MESSAGES');
+export const startGame = createAction('START_GAME');
+export const endGame = createAction('END_GAME');
+export const toggleTurn = createAction('TOGGLE_TURN');
+export const startTurn = createAction('START_TURN');
+export const endTurn = createAction('END_TURN');
+export const setWinner = createAction('SET_WINNER');

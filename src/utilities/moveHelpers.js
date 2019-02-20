@@ -1,4 +1,5 @@
-import { setError } from '../store/messageReducer';
+import { setError } from '../store/actions';
+
 import { oppositePlayer, positionIsSpecialSquare } from './playerHelpers';
 
 export const isNextMoveInvalid = ({
@@ -39,3 +40,6 @@ export const returnCurrentPlayersFinishTokens = (state) => {
   const currentPlayer = state.game.turn;
   return state[currentPlayer].finishArea;
 };
+
+export const getPlayerIndex = (playersPositions, position) =>
+  playersPositions.findIndex((square) => position === square);

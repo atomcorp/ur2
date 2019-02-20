@@ -1,5 +1,5 @@
 import { createReducer, createAction } from 'redux-starter-kit';
-import { startTurn, toggleTurn } from './gameReducer';
+import { startTurn, toggleTurn } from './actions';
 import { togglePlayerCanMoveThunk } from './playerReducer';
 import { rollDice } from '../utilities/diceHelpers';
 

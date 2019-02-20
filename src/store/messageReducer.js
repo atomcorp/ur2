@@ -1,8 +1,5 @@
-import { createAction, createReducer } from 'redux-starter-kit';
-
-export const setError = createAction('SET_ERROR');
-export const setStatus = createAction('SET_STATUS');
-export const clearMessages = createAction('CLEAR_MESSAGES');
+import { createReducer } from 'redux-starter-kit';
+import { setError, setStatus, clearMessages } from './actions';
 
 const messageReducer = createReducer(
   {

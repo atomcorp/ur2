@@ -10,6 +10,8 @@ import {
   addPlayerTwoStartToken,
   togglePlayerOneCanMove,
   togglePlayerTwoCanMove,
+  startTurn,
+  toggleTurn,
 } from './actions';
 import {
   PLAYER,
@@ -20,12 +22,9 @@ import {
 import {
   isNextMoveInvalid,
   returnCurrentPlayersFinishTokens,
+  getPlayerIndex,
 } from '../utilities/moveHelpers';
-import { startTurn, toggleTurn, testEndGameThunk } from './gameReducer';
-
-// THUNKS
-const getPlayerIndex = (playersPositions, position) =>
-  playersPositions.findIndex((square) => position === square);
+import { testEndGameThunk } from './gameReducer';
 
 export const previewTokenMoveThunk = ({ player, position }) => {
   return (dispatch, getState) => {
