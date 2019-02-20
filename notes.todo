@@ -1,10 +1,10 @@
 Next:
   ✔ Collision between different players tokens @done(19-02-18 22:28)
   ✔ Occupied Special square rules @done(19-02-18 23:34)
-  ☐ Turns 
-    ☐ Unoccupied special square
-  ☐ blocking actions
-    ☐ not your turn
-    ☐ rolled a 0
-    ☐ no legal moves
+  ✔ Turns @done(19-02-20 00:17)
+    ✔ Unoccupied special square @done(19-02-20 00:17)
+  ✔ blocking actions @done(19-02-20 00:17)
+    ✔ not your turn @done(19-02-20 00:17)
+    ✔ rolled a 0 @done(19-02-20 00:17)
+    ✔ no legal moves @done(19-02-20 00:17)
   ☐ win/lose state

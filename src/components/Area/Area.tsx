@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Token } from '../';
-import { TokenType, PLAYER as PLAYER_TYPE } from '../../types';
+import { TokenType, PlayerType } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import {
   previewTokenMoveThunk,
@@ -14,18 +14,19 @@ type AreaProps = {
   title: string;
   tokens: number;
   type: 'startArea' | 'finishArea';
-  player: PLAYER_TYPE;
+  player: PlayerType;
   onMouseOver: boolean;
   onClick: boolean;
   previewTokenMoveThunk: (props: any) => void;
   endPreviewMove: () => void;
   moveTokenThunk: (props: any) => void;
+  canMove: boolean;
 };
 
 const Area: React.FC<AreaProps> = (props) => (
   <section
     onMouseEnter={
-      props.onMouseOver
+      props.onMouseOver && props.canMove
         ? () =>
             props.previewTokenMoveThunk({
               player: props.player,
@@ -33,9 +34,13 @@ const Area: React.FC<AreaProps> = (props) => (
             })
         : undefined
     }
-    onMouseLeave={props.onMouseOver ? () => props.endPreviewMove() : undefined}
+    onMouseLeave={
+      props.onMouseOver && props.canMove
+        ? () => props.endPreviewMove()
+        : undefined
+    }
     onClick={
-      props.onMouseOver
+      props.onMouseOver && props.canMove
         ? () =>
             props.moveTokenThunk({ player: props.player, position: 'start' })
         : undefined
@@ -53,21 +58,24 @@ type ConnectState = {
   [PLAYER.ONE]: {
     startArea: number;
     finishArea: number;
+    canMove: boolean;
   };
   [PLAYER.TWO]: {
     startArea: number;
     finishArea: number;
+    canMove: boolean;
   };
 };
 
 type ConnectProps = {
-  player: PLAYER_TYPE;
+  player: PlayerType;
   type: 'startArea' | 'finishArea';
 };
 
 export default connect(
   (state: ConnectState, ownProps: ConnectProps) => ({
     tokens: state[ownProps.player][ownProps.type],
+    canMove: state[ownProps.player].canMove,
   }),
   { previewTokenMoveThunk, endPreviewMove, moveTokenThunk }
 )(Area);

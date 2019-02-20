@@ -16,31 +16,54 @@ type TokenProps = {
   moveTokenThunk: any;
   previewTokenMoveThunk: any;
   endPreviewMove: () => void;
+  canMove: boolean;
 };
 
 const Token: React.FC<TokenProps> = (props) => (
   <section
     className={`${css.container} ${props.previewed ? css.preview : ''}`}
-    onMouseEnter={() => {
-      props.previewTokenMoveThunk({
-        player: props.token,
-        position: props.squareId,
-      });
-    }}
-    onMouseLeave={() => props.endPreviewMove()}
-    onClick={() =>
-      props.moveTokenThunk({
-        player: props.token,
-        position: props.squareId,
-        token: props.token,
-      })
+    onMouseEnter={
+      props.canMove
+        ? () => {
+            props.previewTokenMoveThunk({
+              player: props.token,
+              position: props.squareId,
+            });
+          }
+        : undefined
+    }
+    onMouseLeave={props.canMove ? () => props.endPreviewMove() : undefined}
+    onClick={
+      props.canMove
+        ? () =>
+            props.moveTokenThunk({
+              player: props.token,
+              position: props.squareId,
+              token: props.token,
+            })
+        : undefined
     }
   >
     {props.token === PLAYER.ONE ? '♟' : '♙'}
   </section>
 );
 
+type ConnectProps = {
+  token: PlayerType;
+};
+
+type ConnectState = {
+  [PLAYER.ONE]: {
+    canMove: boolean;
+  };
+  [PLAYER.TWO]: {
+    canMove: boolean;
+  };
+};
+
 export default connect(
-  (state) => ({}),
+  (state: ConnectState, ownProps: ConnectProps) => ({
+    canMove: state[ownProps.token].canMove,
+  }),
   { moveTokenThunk, previewTokenMoveThunk, endPreviewMove }
 )(Token);

@@ -3,13 +3,15 @@ import {
   PLAYER,
   POSITION_MAP,
   oppositePlayer,
+  positionIsSpecialSquare,
 } from '../utilities/playerHelpers';
 import {
-  moveTokenFromStart,
+  // moveTokenFromStart,
   moveTokenToFinish,
   isNextMoveInvalid,
-  moveOppositionTokenBackToStart,
+  // moveOppositionTokenBackToStart,
 } from '../utilities/moveHelpers';
+import { startTurn, toggleTurn } from './gameReducer';
 
 // ACTIONS
 export const moveToken = createAction('MOVE_TOKEN');
@@ -33,7 +35,12 @@ export const addPlayerOneStartToken = createAction(
 export const addPlayerTwoStartToken = createAction(
   'ADD_START_PLAYER_TWO_TOKEN'
 );
-
+export const togglePlayerOneCanMove = createAction(
+  'TOGGLE_PLAYER_ONE_CAN_MOVE'
+);
+export const togglePlayerTwoCanMove = createAction(
+  'TOGGLE_PLAYER_TWO_CAN_MOVE'
+);
 // THUNKS
 const getPlayerIndex = (playersPositions, position) =>
   playersPositions.findIndex((square) => position === square);
@@ -65,20 +72,14 @@ export const moveTokenThunk = ({ player, position, token }) => {
       POSITION_MAP[player][
         getPlayerIndex(POSITION_MAP[player], position) + state.dice.count
       ];
-
+    const currentPlayer = getState().game.turn;
     // if move invalid, cancel
     if (isNextMoveInvalid({ nextPosition, dispatch, state, player })) {
       return;
     }
     // if chosen from the start group
     if (position === 'start') {
-      moveTokenFromStart({
-        dispatch,
-        player,
-        nextPosition,
-        startArea: state[player].startArea,
-      });
-      return;
+      dispatch(removePlayerStartTokenThunk());
     }
     if (nextPosition === 'finish') {
       moveTokenToFinish({ dispatch, player, position });
@@ -86,18 +87,52 @@ export const moveTokenThunk = ({ player, position, token }) => {
     }
     // if opponent token in same position, move to start
     if (state.board.positions[nextPosition] === oppositePlayer(player)) {
-      moveOppositionTokenBackToStart({ player, dispatch });
+      dispatch(addPlayerStartTokenThunk());
     }
-    dispatch(moveToken({ nextPosition, token, position }));
     // move turn
+    dispatch(moveToken({ nextPosition, token: currentPlayer, position }));
+    dispatch(togglePlayerCanMoveThunk());
     // if special square, get another turn
+    if (positionIsSpecialSquare(nextPosition)) {
+      // restart turn
+      dispatch(startTurn());
+    } else {
+      dispatch(toggleTurn());
+    }
   };
+};
+
+const removePlayerStartTokenThunk = () => (dispatch, getState) => {
+  const currentPlayer = getState().game.turn;
+  if (currentPlayer === PLAYER.ONE) {
+    dispatch(removePlayerOneStartToken());
+  } else {
+    dispatch(removePlayerTwoStartToken());
+  }
+};
+
+const addPlayerStartTokenThunk = () => (dispatch, getState) => {
+  const currentPlayer = getState().game.turn;
+  if (currentPlayer === PLAYER.ONE) {
+    dispatch(addPlayerTwoStartToken());
+  } else {
+    dispatch(addPlayerOneStartToken());
+  }
+};
+
+export const togglePlayerCanMoveThunk = () => (dispatch, getState) => {
+  const currentPlayer = getState().game.turn;
+  if (currentPlayer === PLAYER.ONE) {
+    dispatch(togglePlayerOneCanMove());
+  } else {
+    dispatch(togglePlayerTwoCanMove());
+  }
 };
 
 const createDefaultPlayerState = (player) => ({
   startArea: 6,
   finishArea: 0,
-  isTurn: player === PLAYER.ONE ? true : false,
+  canMove: false,
 });
 
 const removePlayerStartToken = (state, { payload }) => {
@@ -112,12 +147,17 @@ const addPlayerStartToken = (state, { payload }) => {
   state.startArea += 1;
 };
 
+const toggleCanMove = (state, { payload }) => {
+  state.canMove = !state.canMove;
+};
+
 export const playerOneReducer = createReducer(
   createDefaultPlayerState(PLAYER.ONE),
   {
     [removePlayerOneStartToken]: removePlayerStartToken,
     [addPlayerOneFinishToken]: addPlayerFinishToken,
     [addPlayerOneStartToken]: addPlayerStartToken,
+    [togglePlayerOneCanMove]: toggleCanMove,
   }
 );
 
@@ -127,5 +167,6 @@ export const playerTwoReducer = createReducer(
     [removePlayerTwoStartToken]: removePlayerStartToken,
     [addPlayerTwoFinishToken]: addPlayerFinishToken,
     [addPlayerTwoStartToken]: addPlayerStartToken,
+    [togglePlayerTwoCanMove]: toggleCanMove,
   }
 );

@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { startGame, endGame } from '../../store/gameReducer';
+import { startGameThunk, endGame } from '../../store/gameReducer';
 
 type StartProps = {
   hasStarted: boolean;
-  startGame: () => void;
+  startGameThunk: () => void;
   endGame: () => void;
 };
 
 const Start = (props: StartProps) => (
   <button
-    onClick={props.hasStarted ? () => props.endGame() : () => props.startGame()}
+    onClick={
+      props.hasStarted ? () => props.endGame() : () => props.startGameThunk()
+    }
   >
     {props.hasStarted ? 'Cancel' : 'Start'}
   </button>
@@ -27,5 +29,5 @@ export default connect(
   (state: State) => ({
     hasStarted: state.game.started,
   }),
-  { startGame, endGame }
+  { startGameThunk, endGame }
 )(Start);
