@@ -5,11 +5,16 @@ import {
   endPreviewMove,
   moveToken,
 } from './playerReducer';
+
+import { PLAYER } from '../utilities/playerHelpers';
+
 const boardReducer = createReducer(
   {
     positions: {
-      // c3: { player: PLAYER.ONE, piece: 2 },
-      // b4: { player: PLAYER.TWO, piece: 0 }
+      // c7: PLAYER.ONE,
+      // a7: PLAYER.TWO,
+      // b6: PLAYER.ONE,
+      // b4: PLAYER.TWO,
     },
     previewPosition: {},
   },
@@ -23,7 +28,7 @@ const boardReducer = createReducer(
     [moveToken]: (state, { payload }) => {
       // nextPosition, token, position
       delete state.positions[payload.position];
-      if (payload.nextPosition) {
+      if (payload.nextPosition && payload.nextPosition !== 'finish') {
         state.positions[payload.nextPosition] = payload.token;
       }
       state.previewPosition = {};

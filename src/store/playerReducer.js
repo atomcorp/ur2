@@ -82,15 +82,16 @@ export const moveTokenThunk = ({ player, position, token }) => {
       dispatch(removePlayerStartTokenThunk());
     }
     if (nextPosition === 'finish') {
-      moveTokenToFinish({ dispatch, player, position });
-      dispatch(testEndGameThunk());
-      return;
+      dispatch(addPlayerFinishTokenThunk());
+      if (returnCurrentPlayersFinishTokens(getState()) === 6) {
+        dispatch(testEndGameThunk());
+      }
     }
     // if opponent token in same position, move to start
     if (state.board.positions[nextPosition] === oppositePlayer(player)) {
       dispatch(addPlayerStartTokenThunk());
     }
-    // move turn
+    // move turn and disable current player
     dispatch(moveToken({ nextPosition, token: currentPlayer, position }));
     dispatch(togglePlayerCanMoveThunk());
     // if special square, get another turn
@@ -121,6 +122,15 @@ const addPlayerStartTokenThunk = () => (dispatch, getState) => {
   }
 };
 
+const addPlayerFinishTokenThunk = () => (dispatch, getState) => {
+  const currentPlayer = getState().game.turn;
+  if (currentPlayer === PLAYER.ONE) {
+    dispatch(addPlayerOneFinishToken());
+  } else {
+    dispatch(addPlayerTwoFinishToken());
+  }
+};
+
 export const togglePlayerCanMoveThunk = () => (dispatch, getState) => {
   const currentPlayer = getState().game.turn;
   if (currentPlayer === PLAYER.ONE) {
@@ -128,6 +138,11 @@ export const togglePlayerCanMoveThunk = () => (dispatch, getState) => {
   } else {
     dispatch(togglePlayerTwoCanMove());
   }
+};
+
+const returnCurrentPlayersFinishTokens = (state) => {
+  const currentPlayer = state.game.turn;
+  return state[currentPlayer].finishArea;
 };
 
 const createDefaultPlayerState = (player) => ({
