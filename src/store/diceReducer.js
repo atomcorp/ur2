@@ -1,9 +1,7 @@
-import { createReducer, createAction } from 'redux-starter-kit';
-import { startTurn, toggleTurn } from './actions';
+import { createReducer } from 'redux-starter-kit';
+import { startTurn, toggleTurn, rollDiceAction } from './actions';
 import { togglePlayerCanMoveThunk } from './playerReducer';
 import { rollDice } from '../utilities/diceHelpers';
-
-export const rollDiceAction = createAction('ROLL_DICE');
 
 export const rollDiceThunk = () => {
   return (dispatch, getState) => {

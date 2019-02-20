@@ -119,8 +119,7 @@ export const togglePlayerCanMoveThunk = () => (dispatch, getState) => {
   }
 };
 
-// REDUCERS
-
+// REDUCER
 const createDefaultPlayerState = (player) => ({
   startArea: 6,
   finishArea: 0,

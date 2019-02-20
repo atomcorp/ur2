@@ -36,3 +36,4 @@ export const toggleTurn = createAction('TOGGLE_TURN');
 export const startTurn = createAction('START_TURN');
 export const endTurn = createAction('END_TURN');
 export const setWinner = createAction('SET_WINNER');
+export const rollDiceAction = createAction('ROLL_DICE');
