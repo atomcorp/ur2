@@ -17,7 +17,7 @@ const boardReducer = createReducer(
       // nextPosition, token, position
       delete state.positions[payload.position];
       if (payload.nextPosition && payload.nextPosition !== 'finish') {
-        state.positions[payload.nextPosition] = payload.token;
+        state.positions[payload.nextPosition] = payload.player;
       }
       state.previewPosition = {};
     },

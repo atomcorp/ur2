@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { rollDiceThunk } from '../../store/diceReducer';
+import { DieType, DiceType } from '../../types';
 
 const Die: React.FC<{ isOne: boolean }> = ({ isOne }) => (
   <div>{isOne ? '🞕' : '◻'}</div>
 );
 
 type DiceProps = {
-  faces: [number];
+  faces: DiceType;
   rollDiceThunk: () => void;
   canRoll: boolean;
 };
@@ -26,7 +27,7 @@ const Dice: React.FC<DiceProps> = (props) => (
 
 type StateProps = {
   dice: {
-    faces: [number];
+    faces: DiceType;
     canRoll: boolean;
   };
 };

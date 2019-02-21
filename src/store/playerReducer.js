@@ -44,14 +44,14 @@ export const previewTokenMoveThunk = ({ player, position }) => {
   };
 };
 
-export const moveTokenThunk = ({ player, position, token }) => {
+export const moveTokenThunk = ({ player, position }) => {
   return (dispatch, getState) => {
     const state = getState();
+    const currentPlayer = getState().game.turn;
     const nextPosition =
       POSITION_MAP[player][
         getPlayerIndex(POSITION_MAP[player], position) + state.dice.count
       ];
-    const currentPlayer = getState().game.turn;
     // if move invalid, cancel
     if (isNextMoveInvalid({ nextPosition, dispatch, state, player })) {
       return;
@@ -71,7 +71,7 @@ export const moveTokenThunk = ({ player, position, token }) => {
       dispatch(addPlayerStartTokenThunk());
     }
     // move turn and disable current player
-    dispatch(moveToken({ nextPosition, token: currentPlayer, position }));
+    dispatch(moveToken({ nextPosition, player: currentPlayer, position }));
     dispatch(togglePlayerCanMoveThunk());
     // if special square, get another turn
     if (positionIsSpecialSquare(nextPosition)) {

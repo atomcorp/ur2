@@ -7,17 +7,16 @@ import { TokenType, PLAYER, PositionType } from '../../types';
 type UrProps = {
   positions: { [key in PositionType]: TokenType };
   previewPosition: { [key in PositionType]: PLAYER };
-  // squareId: string;
 };
 
 const Ur: React.FC<UrProps> = (props) => (
   <Board>
     {(squareId: PositionType) => {
       if (props.previewPosition[squareId]) {
-        return <Token previewed token={props.previewPosition[squareId]} />;
+        return <Token previewed player={props.previewPosition[squareId]} />;
       }
       if (props.positions[squareId]) {
-        return <Token token={props.positions[squareId]} squareId={squareId} />;
+        return <Token player={props.positions[squareId]} squareId={squareId} />;
       }
       return squareId;
     }}
@@ -33,5 +32,5 @@ type state = {
 
 export default connect((state: state) => ({
   positions: state.board.positions,
-  previewPosition: state.board.previewPosition
+  previewPosition: state.board.previewPosition,
 }))(Ur);

@@ -5,17 +5,17 @@ import {
 } from '../../store/playerReducer';
 import { endPreviewMove } from '../../store/actions';
 
-import { TokenType, PositionType, PlayerType } from '../../types';
+import { PositionType, PlayerType } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import css from './Token.module.css';
 import { connect } from 'react-redux';
 
 type TokenProps = {
-  token: TokenType;
+  player: PlayerType;
   previewed?: boolean;
   squareId?: PositionType;
-  moveTokenThunk: any;
-  previewTokenMoveThunk: any;
+  moveTokenThunk: (props: any) => void;
+  previewTokenMoveThunk: (props: any) => void;
   endPreviewMove: () => void;
   canMove: boolean;
 };
@@ -27,7 +27,7 @@ const Token: React.FC<TokenProps> = (props) => (
       props.canMove
         ? () => {
             props.previewTokenMoveThunk({
-              player: props.token,
+              player: props.player,
               position: props.squareId,
             });
           }
@@ -35,22 +35,21 @@ const Token: React.FC<TokenProps> = (props) => (
     }
     onMouseLeave={props.canMove ? () => props.endPreviewMove() : undefined}
     onClick={
-      props.canMove
+      props.canMove && !props.previewed
         ? () =>
             props.moveTokenThunk({
-              player: props.token,
+              player: props.player,
               position: props.squareId,
-              token: props.token,
             })
         : undefined
     }
   >
-    {props.token === PLAYER.ONE ? '♟' : '♙'}
+    {props.player === PLAYER.ONE ? '♟' : '♙'}
   </section>
 );
 
 type ConnectProps = {
-  token: PlayerType;
+  player: PlayerType;
 };
 
 type ConnectState = {
@@ -64,7 +63,7 @@ type ConnectState = {
 
 export default connect(
   (state: ConnectState, ownProps: ConnectProps) => ({
-    canMove: state[ownProps.token].canMove,
+    canMove: state[ownProps.player].canMove,
   }),
   { moveTokenThunk, previewTokenMoveThunk, endPreviewMove }
 )(Token);

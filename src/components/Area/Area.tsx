@@ -15,18 +15,20 @@ type AreaProps = {
   tokens: number;
   type: 'startArea' | 'finishArea';
   player: PlayerType;
-  onMouseOver: boolean;
-  onClick: boolean;
-  previewTokenMoveThunk: (props: any) => void;
+  canInteract: boolean;
+  previewTokenMoveThunk: (props: {
+    player: PlayerType;
+    position: 'start';
+  }) => void;
   endPreviewMove: () => void;
-  moveTokenThunk: (props: any) => void;
+  moveTokenThunk: (props: { player: PlayerType; position: 'start' }) => void;
   canMove: boolean;
 };
 
 const Area: React.FC<AreaProps> = (props) => (
   <section
     onMouseEnter={
-      props.onMouseOver && props.canMove
+      props.canInteract && props.canMove
         ? () =>
             props.previewTokenMoveThunk({
               player: props.player,
@@ -35,12 +37,12 @@ const Area: React.FC<AreaProps> = (props) => (
         : undefined
     }
     onMouseLeave={
-      props.onMouseOver && props.canMove
+      props.canInteract && props.canMove
         ? () => props.endPreviewMove()
         : undefined
     }
     onClick={
-      props.onMouseOver && props.canMove
+      props.canInteract && props.canMove
         ? () =>
             props.moveTokenThunk({ player: props.player, position: 'start' })
         : undefined

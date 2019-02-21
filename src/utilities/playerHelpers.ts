@@ -73,35 +73,30 @@ type areaType = {
   player: PLAYER_TYPE;
   type: 'startArea' | 'finishArea';
   title: string;
-  onClick: boolean;
-  onMouseOver: boolean;
+  canInteract: boolean;
 }[];
 
 export const areaMap: areaType = [
   {
-    onClick: true,
-    onMouseOver: true,
+    canInteract: true,
     title: 'Player one start',
     player: PLAYER.ONE,
     type: 'startArea',
   },
   {
-    onClick: true,
-    onMouseOver: true,
+    canInteract: true,
     title: 'Player two start',
     player: PLAYER.TWO,
     type: 'startArea',
   },
   {
-    onClick: false,
-    onMouseOver: false,
+    canInteract: false,
     title: 'Player one finish',
     player: PLAYER.ONE,
     type: 'finishArea',
   },
   {
-    onClick: false,
-    onMouseOver: false,
+    canInteract: false,
     title: 'Player two finish',
     player: PLAYER.TWO,
     type: 'finishArea',

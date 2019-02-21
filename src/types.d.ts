@@ -31,3 +31,7 @@ export type PositionType =
   | 'c5'
   | 'c6'
   | 'c7';
+
+export type DieType = 0 | 1;
+
+export type DiceType = [DieType, DieType, DieType, DieType];
