@@ -3,7 +3,10 @@ import { previewTokenMove, endPreviewMove, moveToken } from './actions';
 
 const boardReducer = createReducer(
   {
-    positions: {},
+    positions: {
+      b7: 'PLAYER_ONE',
+      c6: 'PLAYER_ONE',
+    },
     previewPosition: {},
   },
   {

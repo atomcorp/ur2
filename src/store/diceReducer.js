@@ -1,6 +1,9 @@
 import { createReducer } from 'redux-starter-kit';
 import { startTurn, toggleTurn, rollDiceAction } from './actions';
-import { togglePlayerCanMoveThunk } from './playerReducer';
+import {
+  togglePlayerCanMoveThunk,
+  isNextTurnPossibleThunk,
+} from './playerReducer';
 import { rollDice } from '../utilities/diceHelpers';
 
 export const rollDiceThunk = () => {
@@ -14,6 +17,7 @@ export const rollDiceThunk = () => {
       })
     );
     if (diceResultsTotal > 0) {
+      dispatch(isNextTurnPossibleThunk());
       // current player can move
       dispatch(togglePlayerCanMoveThunk());
     } else {
@@ -31,8 +35,10 @@ const diceReducer = createReducer(
   },
   {
     [rollDiceAction]: (state, action) => {
-      state.faces = action.payload.faces;
-      state.count = action.payload.count;
+      // state.faces = action.payload.faces;
+      state.faces = [0, 0, 0, 0];
+      // state.count = action.payload.count;
+      state.count = 2;
       state.canRoll = false;
     },
     [startTurn]: (state) => {

@@ -12,29 +12,55 @@ import {
   togglePlayerTwoCanMove,
   startTurn,
   toggleTurn,
+  setError,
 } from './actions';
 import {
   PLAYER,
-  POSITION_MAP,
   oppositePlayer,
   positionIsSpecialSquare,
 } from '../utilities/playerHelpers';
 import {
   isNextMoveInvalid,
   returnCurrentPlayersFinishTokens,
-  getPlayerIndex,
+  getNextPosition,
+  isNextPositionPossibleThunk,
 } from '../utilities/moveHelpers';
 import { testEndGameThunk } from './gameReducer';
+
+export const isNextTurnPossibleThunk = () => (dispatch, getState) => {
+  const state = getState();
+  const currentPlayer = getState().game.turn;
+  let playersActivePositions = [];
+  // is start move possible
+  if (state[currentPlayer].startArea > 0) {
+    playersActivePositions.push('start');
+  }
+  playersActivePositions = playersActivePositions.concat(
+    Object.keys(state.board.positions).filter(
+      (position) => state.board.positions[position] === currentPlayer
+    )
+  );
+  const isAnyMovePossible = playersActivePositions.every((position) =>
+    isNextPositionPossibleThunk({
+      position,
+    })
+  );
+  if (playersActivePositions.length > 0 && isAnyMovePossible) {
+    dispatch(setError('No move possible'));
+    dispatch(toggleTurn());
+  }
+};
 
 export const previewTokenMoveThunk = ({ player, position }) => {
   return (dispatch, getState) => {
     const state = getState();
 
-    const playersPositions = POSITION_MAP[player];
-    const nextPosition =
-      playersPositions[
-        getPlayerIndex(playersPositions, position) + state.dice.count
-      ];
+    const nextPosition = getNextPosition({
+      player,
+      position,
+      moves: state.dice.count,
+    });
+
     dispatch(
       previewTokenMove({
         position: nextPosition,
@@ -44,16 +70,24 @@ export const previewTokenMoveThunk = ({ player, position }) => {
   };
 };
 
-export const moveTokenThunk = ({ player, position }) => {
+export const moveTokenThunk = ({ position }) => {
   return (dispatch, getState) => {
     const state = getState();
     const currentPlayer = getState().game.turn;
-    const nextPosition =
-      POSITION_MAP[player][
-        getPlayerIndex(POSITION_MAP[player], position) + state.dice.count
-      ];
+    const nextPosition = getNextPosition({
+      player: currentPlayer,
+      position,
+      moves: state.dice.count,
+    });
     // if move invalid, cancel
-    if (isNextMoveInvalid({ nextPosition, dispatch, state, player })) {
+    if (
+      isNextMoveInvalid({
+        nextPosition,
+        dispatch,
+        state,
+        player: currentPlayer,
+      })
+    ) {
       return;
     }
     // if chosen from the start group
@@ -67,7 +101,7 @@ export const moveTokenThunk = ({ player, position }) => {
       }
     }
     // if opponent token in same position, move to start
-    if (state.board.positions[nextPosition] === oppositePlayer(player)) {
+    if (state.board.positions[nextPosition] === oppositePlayer(currentPlayer)) {
       dispatch(addPlayerStartTokenThunk());
     }
     // move turn and disable current player
@@ -121,7 +155,7 @@ export const togglePlayerCanMoveThunk = () => (dispatch, getState) => {
 
 // REDUCER
 const createDefaultPlayerState = (player) => ({
-  startArea: 6,
+  startArea: 0,
   finishArea: 0,
   canMove: false,
 });

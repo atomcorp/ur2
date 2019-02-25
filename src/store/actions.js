@@ -37,3 +37,5 @@ export const startTurn = createAction('START_TURN');
 export const endTurn = createAction('END_TURN');
 export const setWinner = createAction('SET_WINNER');
 export const rollDiceAction = createAction('ROLL_DICE');
+export const isNextTurnPossible = createAction('IS_NEXT_TURN_OK');
+// export const nextTurnImpossible = createAction('NEXT_TURN_IMPOSSIBLE');

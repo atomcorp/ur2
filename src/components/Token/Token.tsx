@@ -1,14 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import {
   moveTokenThunk,
   previewTokenMoveThunk,
 } from '../../store/playerReducer';
 import { endPreviewMove } from '../../store/actions';
-
 import { PositionType, PlayerType } from '../../types';
 import { PLAYER } from '../../utilities/playerHelpers';
 import css from './Token.module.css';
-import { connect } from 'react-redux';
 
 type TokenProps = {
   player: PlayerType;
